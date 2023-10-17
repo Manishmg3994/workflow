@@ -1,34 +1,22 @@
-name: Platform Build Workflow
+name: Dynamic Runner Selection
 
 on:
   workflow_dispatch:
     inputs:
-      platform_runner:
-        description: 'Select the runner for the platform build'
+      choice:
+        description: 'Choose the runner'
         required: true
-        type: choice
-        options:
-          'App (macOS)': 'macos-latest'
-          'AAB (macOS)': 'macos-latest'
-          'IPA (macOS)': 'macos-latest'
-          'Exe (Windows)': 'windows-latest'
-          'Linux': 'ubuntu-latest'
-          'Mac (macOS)': 'macos-latest'
-          'Custom (Linux)': 'ubuntu-latest'
+        default: 'linux'
 
 jobs:
-  build:
-    runs-on: ${{ github.event.inputs.platform_runner }}
+  run-based-on-choice:
+    runs-on: ${{ github.event.inputs.choice == 'android' && 'macos-latest' || github.event.inputs.choice == 'windows' && 'windows-latest' || 'ubuntu-latest' }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up platform-specific environment
+      - name: Run your task
         run: |
-          # Your platform-specific setup steps here
-
-      - name: Build and deploy
-        run: |
-          echo "Running on ${{ github.event.inputs.platform_runner }} environment"
-          # Add your build and deployment commands here, specific to the selected platform
+          # Your task to run based on the input choice
+          echo "Running on ${{ github.event.inputs.choice }} runner"
