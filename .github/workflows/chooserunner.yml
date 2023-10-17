@@ -3,49 +3,32 @@ name: Platform Build Workflow
 on:
   workflow_dispatch:
     inputs:
-      build-choice:
-        description: 'Choose the platform to build'
+      platform_runner:
+        description: 'Select the runner for the platform build'
         required: true
         type: choice
         options:
-          'APP Android': 'Android'
-          'AAB Android': 'Android'
-          'IPA iOS': 'iOS'
-          'Exe Windows': 'Windows'
-          'Linux': 'Linux'
-          'MAC': 'Mac'
-          'Custom': 'Custom'
+          'App (macOS)': 'macos-latest'
+          'AAB (macOS)': 'macos-latest'
+          'IPA (macOS)': 'macos-latest'
+          'Exe (Windows)': 'windows-latest'
+          'Linux': 'ubuntu-latest'
+          'Mac (macOS)': 'macos-latest'
+          'Custom (Linux)': 'ubuntu-latest'
 
 jobs:
   build:
-    runs-on: ${{ env.RUNNER_OS }}
-
-    env:
-      RUNNER_OS: ''
+    runs-on: ${{ github.event.inputs.platform_runner }}
 
     steps:
-      - name: Set up platform-specific environment
-        run: |
-          case ${{ github.event.inputs.build-choice }} in
-            'Android' | 'iOS' | 'Mac')
-              echo "RUNNER_OS=macos-latest" >> $GITHUB_ENV
-              ;;
-            'Windows')
-              echo "RUNNER_OS=windows-latest" >> $GITHUB_ENV
-              ;;
-            'Linux' | 'Custom')
-              echo "RUNNER_OS=ubuntu-latest" >> $GITHUB_ENV
-              ;;
-            *)
-              echo "Invalid choice selected"
-              exit 1
-              ;;
-          esac
-
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Set up platform-specific environment
+        run: |
+          # Your platform-specific setup steps here
+
       - name: Build and deploy
         run: |
-          echo "Running on ${{ env.RUNNER_OS }} environment"
+          echo "Running on ${{ github.event.inputs.platform_runner }} environment"
           # Add your build and deployment commands here, specific to the selected platform
