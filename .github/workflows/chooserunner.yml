@@ -1,0 +1,50 @@
+# .github/workflows
+name: Platform Build Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      build-choice:
+        description: 'Choose the platform to build'
+        required: true
+        type: choice
+        options:
+          'APP Android': 'Android'
+          'AAB Android': 'Android'
+          'IPA iOS': 'iOS'
+          'Exe Windows': 'Windows'
+          'Linux': 'Linux'
+          'MAC': 'Mac'
+          'Custom': 'Linux'
+
+jobs:
+  build:
+    runs-on: ${{ runner_os }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up platform-specific environment
+        run: |
+          case ${{ github.event.inputs.build-choice }} in
+            'Android' | 'iOS' | 'Mac')
+              runner_os=macos-latest
+              ;;
+            'Windows')
+              runner_os=windows-latest
+              ;;
+            'Linux')
+              runner_os=ubuntu-latest
+              ;;
+            *)
+              echo "Invalid choice selected"
+              exit 1
+              ;;
+          esac
+          echo "runner_os=${runner_os}" >> $GITHUB_ENV
+
+      - name: Build and deploy
+        run: |
+          echo "Running on ${{ runner_os }} environment"
+          # Add your build and deployment commands here, specific to the selected platform
