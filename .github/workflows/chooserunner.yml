@@ -6,11 +6,12 @@ on:
       choice:
         description: 'Choose the runner'
         required: true
-        default: 'linux'
+        type: choice
+        options: APP, AAB, IPA, MAC, EXE, LINUX, Custom
 
 jobs:
   run-based-on-choice:
-    runs-on: ${{ github.event.inputs.choice == 'android' && 'macos-latest' || github.event.inputs.choice == 'windows' && 'windows-latest' || 'ubuntu-latest' }}
+    runs-on: ${{ github.event.inputs.choice == 'APP' && 'macos-latest' || github.event.inputs.choice == 'AAB' && 'macos-latest' || github.event.inputs.choice == 'IPA' && 'macos-latest' || github.event.inputs.choice == 'MAC' && 'macos-latest' || github.event.inputs.choice == 'EXE' && 'windows-latest' || github.event.inputs.choice == 'LINUX' && 'ubuntu-latest' || github.event.inputs.choice == 'Custom' && 'ubuntu-latest' || 'ubuntu-latest' }}
 
     steps:
       - name: Checkout code
