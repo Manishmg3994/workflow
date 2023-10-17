@@ -1,0 +1,29 @@
+# these are just inputts and file structure is wrong , this is just a reference nohing much
+      build_runner_build:
+        description: 'Build Runner Build'
+        required: false
+        default: false
+        type: boolean
+      change_splash:
+        description: 'Change Splash'
+        required: false
+        default: false
+        type: boolean
+      i18n_generation:
+        description: 'Generate i18n'
+        required: false
+        default: false
+        type: boolean
+      generate_launcher_icons:
+        description: 'Generate Launcher Icons'
+        required: false
+        default: false
+        type: boolean
+      custom_app_name:
+        description: 'Custom App Name (Leave empty to skip)'
+        required: false
+        type: string
+      custom_package_name:
+        description: 'Custom Package Name (Leave empty to skip)'
+        required: false
+        type: string
