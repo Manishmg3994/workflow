@@ -1,0 +1,4 @@
+# specific 
+
+flutter test
+flutter config --enable-linux-desktop # specific cmd
