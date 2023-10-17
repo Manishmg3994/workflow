@@ -7,7 +7,14 @@ on:
         description: 'Choose the runner'
         required: true
         type: choice
-        options: APP, AAB, IPA, MAC, EXE, LINUX, Custom
+        options:
+          - 'APP'
+          - 'AAB'
+          - 'IPA'
+          - 'MAC'
+          - 'EXE' 
+          - 'LINUX' 
+          - 'Custom'
 
 jobs:
   run-based-on-choice:
